@@ -1,7 +1,10 @@
+'use-client'
 import React from 'react';
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Navigation } from '@/types/types';
+import Button from './MobileUI';
+import MobileUI from './MobileUI';
 
 
 interface HeaderProps {
@@ -19,15 +22,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
         <div className="border-b border-gray-200">
           <div className="flex h-16 items-center">
             {/* $add this button later */}
-            {/* <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
-          >
-            <span className="absolute -inset-0.5" />
-            <span className="sr-only">Open menu</span>
-            <Bars3Icon aria-hidden="true" className="size-6" />
-          </button> */}
+            <MobileUI navigation = {navigation}/>
 
             {/* Logo */}
             <div className="ml-4 flex lg:ml-0">

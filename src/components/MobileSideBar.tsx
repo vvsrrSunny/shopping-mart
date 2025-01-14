@@ -12,21 +12,17 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import { Navigation } from '@/types/types';
 
+  
 interface MobileSideBarProps {
+  navigation: Navigation;
   open: boolean;
   setOpen: (value: boolean) => void;
 }
 
-
-const navigation = {
-  pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
-  ],
-};
-
-const MobileSideBar: React.FC<MobileSideBarProps> = ({ open, setOpen }) => {
+const MobileSideBar: React.FC<MobileSideBarProps> = ({ navigation, open, setOpen }) => {
   return (
     <>
       <Dialog open={open} onClose={setOpen} className="relative z-40 lg:hidden">
@@ -56,9 +52,9 @@ const MobileSideBar: React.FC<MobileSideBarProps> = ({ open, setOpen }) => {
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
               {navigation.pages.map((page) => (
                 <div key={page.name} className="flow-root">
-                  <a href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
+                  <Link href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
                     {page.name}
-                  </a>
+                  </Link>
                 </div>
               ))}
             </div>

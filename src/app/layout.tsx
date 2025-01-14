@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 
 import Link from 'next/link';
-// import { useState } from 'react';
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import MobileSideBar from '@/components/MobileSideBar';
 import { Navigation } from '@/types/types';
@@ -38,7 +37,7 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         {/* Mobile menu */}
         {/* <MobileSideBar open={open} setOpen={setOpen} /> */}
-
+        
         <Header navigation={navigation} />
         <div className="bg-white mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">{children}</div>
       </body>
