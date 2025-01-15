@@ -4,6 +4,7 @@ import { classNames } from '@/utils/helpers';
 import { StarIcon } from '@heroicons/react/20/solid';
 import Image from 'next/image';
 import Link from 'next/link';
+import ProductsLayout from './ProductsLayout';
 
 interface ProductsProps {
   products: Product[];
@@ -11,11 +12,7 @@ interface ProductsProps {
 
 export default function Products({ products }: ProductsProps) {
   return (
-    <div className="bg-white">
-      <div className="">
-        <h2 className="sr-only">Products</h2>
-
-        <div className="-mx-px grid grid-cols-2 border-l border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
+    <ProductsLayout>
           {products.map((product) => (
             <div
               key={product.id}
@@ -41,8 +38,6 @@ export default function Products({ products }: ProductsProps) {
               </div>
             </div>
           ))}
-        </div>
-      </div>
-    </div>
+          </ ProductsLayout>
   );
 }

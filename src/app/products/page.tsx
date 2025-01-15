@@ -1,6 +1,7 @@
 import { Product } from '@/types/types';
 import Products from './Products';
 import { fetchProducts } from '@/apis/products';
+import ErrorBoundary from 'next/dist/client/components/error-boundary';
 // const products: Product[] = [
 //   {
 //     id: 1,
@@ -266,7 +267,7 @@ import { fetchProducts } from '@/apis/products';
 // ];
 
 export default async function ProductsPage() {
-  await new Promise(resolve => setTimeout(resolve, 10000));
+  await new Promise(resolve => setTimeout(resolve, 3000));
   const products = await fetchProducts();
 
   return (
