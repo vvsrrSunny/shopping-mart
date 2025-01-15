@@ -1,28 +1,21 @@
 'use client';
 
-import { Fragment, useState } from 'react';
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-} from '@headlessui/react';
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { useState } from 'react';
+import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Navigation } from '@/types/types';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { classNames } from '@/utils/helpers';
 
-  
 interface MobileSideBarProps {
   navigation: Navigation;
-  open: boolean;
-  setOpen: (value: boolean) => void;
 }
 
-const MobileSideBar: React.FC<MobileSideBarProps> = ({ navigation, open, setOpen }) => {
+const MobileSideBar: React.FC<MobileSideBarProps> = ({ navigation }) => {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
   return (
     <>
       <Dialog open={open} onClose={setOpen} className="relative z-40 lg:hidden">
@@ -52,9 +45,17 @@ const MobileSideBar: React.FC<MobileSideBarProps> = ({ navigation, open, setOpen
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
               {navigation.pages.map((page) => (
                 <div key={page.name} className="flow-root">
-                  <Link href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
-                    {page.name}
-                  </Link>
+                  <div
+                    onClick={() => setOpen(false)}
+                    className={classNames(
+                      page.href === pathname ? 'bg-green-700 text-white' : '',
+                      'rounded-md p-2',
+                    )}
+                  >
+                    <Link href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
+                      {page.name}
+                    </Link>
+                  </div>
                 </div>
               ))}
             </div>
@@ -74,18 +75,29 @@ const MobileSideBar: React.FC<MobileSideBarProps> = ({ navigation, open, setOpen
 
             <div className="border-t border-gray-200 px-4 py-6">
               <a href="#" className="-m-2 flex items-center p-2">
-                <img
+                <Image
                   alt=""
-                  src="https://tailwindui.com/plus/img/flags/flag-canada.svg"
-                  className="block h-auto w-5 shrink-0"
+                  src="https://tailwindui.com/plus/img/flags/flag-australia.svg"
+                  className="block h-auto w-auto shrink-0"
+                  width={20}
+                  height={15}
                 />
-                <span className="ml-3 block text-base font-medium text-gray-900">CAD</span>
+                <span className="ml-3 block text-base font-medium text-gray-900">AUD</span>
                 <span className="sr-only">, change currency</span>
               </a>
             </div>
           </DialogPanel>
         </div>
       </Dialog>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="relative rounded-md bg-white p-2 text-gray-400 lg:hidden"
+      >
+        <span className="absolute -inset-0.5" />
+        <span className="sr-only">Open menu</span>
+        <Bars3Icon aria-hidden="true" className="size-6" />
+      </button>
     </>
   );
 };

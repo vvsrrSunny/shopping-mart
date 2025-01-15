@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 
-const page: React.FC = () => {
+const Home: React.FC = () => {
   redirect('/products');
 };
 
-export default page;
+export default Home;

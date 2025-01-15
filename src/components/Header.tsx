@@ -1,17 +1,19 @@
-'use-client'
+'use client';
 import React from 'react';
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Navigation } from '@/types/types';
-import Button from './MobileUI';
-import MobileUI from './MobileUI';
-
+import MobileSideBar from './MobileSideBar';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 interface HeaderProps {
   navigation: Navigation;
 }
 
 const Header: React.FC<HeaderProps> = ({ navigation }) => {
+  const pathname = usePathname();
+
   return (
     <header className="relative bg-white">
       <p className="flex h-10 items-center justify-center bg-green-700 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
@@ -22,16 +24,18 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
         <div className="border-b border-gray-200">
           <div className="flex h-16 items-center">
             {/* $add this button later */}
-            <MobileUI navigation = {navigation}/>
+            <MobileSideBar navigation={navigation} />
 
             {/* Logo */}
             <div className="ml-4 flex lg:ml-0">
               <a href="#">
                 <span className="sr-only">Your Company</span>
-                <img
+                <Image
                   alt=""
-                  src="https://playa3ull.games/_next/image?url=%2Fassets%2Flogos%2F3ull_head.webp&w=64&q=75"
-                  className="h-8 w-auto"
+                  src="https://tailwindui.com/plus/img/logos/mark.svg?color=green&shade=700"
+                  className="h-8 w-auto bg-white"
+                  width={20}
+                  height={20}
                 />
               </a>
             </div>
@@ -45,7 +49,15 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
                     key={index}
                     className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
                   >
-                    {page.name}
+                    <p
+                      className={
+                        page.href === pathname
+                          ? 'underline decoration-green-700 decoration-2 underline-offset-8'
+                          : ''
+                      }
+                    >
+                      {page.name}
+                    </p>
                   </Link>
                 ))}
               </div>
@@ -64,10 +76,12 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
 
               <div className="hidden lg:ml-8 lg:flex">
                 <a href="#" className="flex items-center text-gray-700 hover:text-gray-800">
-                  <img
+                  <Image
                     alt=""
                     src="https://tailwindui.com/plus/img/flags/flag-australia.svg"
                     className="block h-auto w-5 shrink-0"
+                    width={20}
+                    height={15}
                   />
                   <span className="ml-3 block text-sm font-medium">AUD</span>
                   <span className="sr-only">, change currency</span>

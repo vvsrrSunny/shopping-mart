@@ -1,10 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-
-import Link from 'next/link';
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
-import MobileSideBar from '@/components/MobileSideBar';
 import { Navigation } from '@/types/types';
 import Header from '@/components/Header';
 
@@ -34,12 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
-        {/* Mobile menu */}
-        {/* <MobileSideBar open={open} setOpen={setOpen} /> */}
-
+      <body className={`${inter.className} bg-white`}>
         <Header navigation={navigation} />
-          <div className="mx-auto max-w-7xl bg-white px-4 sm:px-6 lg:px-8">{children}</div>
+        <div className="mx-auto max-w-7xl bg-white px-4 sm:px-6 lg:px-8">{children}</div>
       </body>
     </html>
   );
