@@ -4,13 +4,14 @@ import React from 'react';
 
 interface RatingsProps {
   rating: number;
+  className?: string;
 }
 
-const Ratings: React.FC<RatingsProps> = ({ rating }) => {
+const Ratings: React.FC<RatingsProps> = ({ rating, className }) => {
   return (
     <>
       <p className="sr-only">{rating} out of 5 stars</p>
-      <div className="flex items-center">
+      <div className={`${className} flex items-center`}>
         {[0, 1, 2, 3, 4].map((rate) => (
           <StarIcon
             key={rate}
