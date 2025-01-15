@@ -10,8 +10,11 @@ const ProductPage = async ({ params }: { params: Promise<{ slug: string }> }) =>
   const { slug } = await params;
   // await new Promise(resolve => setTimeout(resolve, 3000));
   let product: Product = {} as Product;
-
+  try {
     product = await fetchProduct(slug);
+  } catch (error) {
+    console.error('Error fetching product:', error);
+  }
 
   return (
       <ProductDetails product={product} />
