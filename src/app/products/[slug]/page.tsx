@@ -12,13 +12,14 @@ const ProductPage = async ({ params }: { params: Promise<{ slug: string }> }) =>
   let product: Product = {} as Product;
   try {
     product = await fetchProduct(slug);
+    if (Object.keys(product).length === 0) {
+      return <NotFound />;
+    }
   } catch (error) {
     console.error('Error fetching product:', error);
   }
 
-  return (
-      <ProductDetails product={product} />
-  );
+  return <ProductDetails product={product} />;
 };
 
 export default ProductPage;
