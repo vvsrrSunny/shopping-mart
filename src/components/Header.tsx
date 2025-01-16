@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Navigation } from '@/types/types';
@@ -7,6 +7,7 @@ import MobileSideBar from './MobileSideBar';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { useCart } from '@/context/CartProvider';
+import CartDrawer from './CartDrawer';
 
 interface HeaderProps {
   navigation: Navigation;
@@ -16,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
   const pathname = usePathname();
   const { countAllItems, countTotalPrice } = useCart();
   const cartItems = countAllItems();
-
+  const [openCartDrawer, setOpenCartDrawer] = useState(false);
   return (
     <header className="relative bg-white">
       <p className="flex h-10 items-center justify-center bg-green-700 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
@@ -28,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
           <div className="flex h-16 items-center">
             {/* $add this button later */}
             <MobileSideBar navigation={navigation} />
-
+            <CartDrawer open={openCartDrawer} setOpen={setOpenCartDrawer}/>
             {/* Logo */}
             <div className="ml-4 flex lg:ml-0">
               <a href="#">
@@ -102,17 +103,16 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
               {/* Cart */}
               <div className="ml-4 flow-root lg:ml-6">
                 <a href="#" className="group -m-2 flex items-center p-2">
-                  <button className="relative">
+                  <button className="relative" onClick={() => setOpenCartDrawer(true)}>
                     <ShoppingCartIcon
                       aria-hidden="true"
                       className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
                     />
                     {cartItems > 0 ? (
                       <div className="absolute -right-3 -top-3 flex h-6 w-6 items-center justify-center rounded-full bg-green-700 bg-opacity-70 text-xs font-semibold text-white">
-                        <p className='text-xs font-light'>{cartItems >= 9 ? '9+' : cartItems}</p>
+                        <p className="text-xs font-light">{cartItems >= 9 ? '9+' : cartItems}</p>
                       </div>
                     ) : null}
-
                   </button>
                   <span className="ml-5 text-sm font-medium text-gray-700 group-hover:text-gray-800">
                     ${countTotalPrice()}
