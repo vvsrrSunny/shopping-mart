@@ -1,11 +1,12 @@
 'use client';
 import React from 'react';
-import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Navigation } from '@/types/types';
 import MobileSideBar from './MobileSideBar';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import { useCart } from '@/context/CartProvider';
 
 interface HeaderProps {
   navigation: Navigation;
@@ -13,6 +14,8 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ navigation }) => {
   const pathname = usePathname();
+  const { countAllItems, countTotalPrice } = useCart();
+  const cartItems = countAllItems();
 
   return (
     <header className="relative bg-white">
@@ -99,12 +102,20 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
               {/* Cart */}
               <div className="ml-4 flow-root lg:ml-6">
                 <a href="#" className="group -m-2 flex items-center p-2">
-                  <ShoppingBagIcon
-                    aria-hidden="true"
-                    className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
-                  />
-                  <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                    0
+                  <button className="relative">
+                    <ShoppingCartIcon
+                      aria-hidden="true"
+                      className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
+                    />
+                    {cartItems > 0 ? (
+                      <div className="absolute -right-3 -top-3 flex h-6 w-6 items-center justify-center rounded-full bg-green-700 bg-opacity-70 text-xs font-semibold text-white">
+                        <p className='text-xs font-light'>{cartItems >= 9 ? '9+' : cartItems}</p>
+                      </div>
+                    ) : null}
+
+                  </button>
+                  <span className="ml-5 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                    ${countTotalPrice()}
                   </span>
                   <span className="sr-only">items in cart, view bag</span>
                 </a>

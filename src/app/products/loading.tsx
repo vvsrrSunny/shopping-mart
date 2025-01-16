@@ -23,7 +23,7 @@ const Loading: React.FC = () => {
             </div>
 
             {/* Skeleton for Price */}
-            <div className="mx-auto mt-4 h-4 w-1/4 animate-pulse rounded bg-slate-300" />
+            <div className="mx-auto mt-1 h-4 w-1/4 animate-pulse rounded bg-slate-300" />
           </div>
         </div>
       ))}

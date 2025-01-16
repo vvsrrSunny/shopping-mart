@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/types/types';
 import Header from '@/components/Header';
+import Providers from '@/components/Providers';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,11 +30,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <Providers>
     <html lang="en">
       <body className={`${inter.className} bg-white`}>
         <Header navigation={navigation} />
         <div className="mx-auto max-w-7xl bg-white px-4 sm:px-6 lg:px-8">{children}</div>
       </body>
     </html>
+    </Providers>
   );
 }
