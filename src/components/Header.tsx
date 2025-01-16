@@ -4,10 +4,11 @@ import { MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/outli
 import Link from 'next/link';
 import { Navigation } from '@/types/types';
 import MobileSideBar from './MobileSideBar';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useCart } from '@/context/CartProvider';
 import CartDrawer from './CartDrawer';
+import { useSession } from 'next-auth/react';
 
 interface HeaderProps {
   navigation: Navigation;
@@ -15,6 +16,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ navigation }) => {
   const pathname = usePathname();
+  const user = useSession();
+  const router = useRouter();
+  const isLoggedIn = user.status === 'authenticated';
   const { countAllItems, countTotalPrice } = useCart();
   const cartItems = countAllItems();
   const [openCartDrawer, setOpenCartDrawer] = useState(false);
@@ -69,13 +73,33 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
 
             <div className="ml-auto flex items-center">
               <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                  Sign in
-                </a>
+                <button
+                  className="text-sm font-medium text-gray-700 hover:text-gray-800 hover:opacity-75"
+                  onClick={() => {
+                    if (isLoggedIn) {
+                      console.log('Show User Profile');
+                    } else {
+                      router.push('/auth/sign-in');
+                    }
+                  }}
+                >
+                  {isLoggedIn ? user.data?.user?.name : 'Sign in'}
+                </button>
                 <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
-                  Create account
-                </a>
+                <button
+                  className="text-sm font-medium text-gray-700 hover:text-gray-800 hover:opacity-75"
+                  onClick={() => {
+                    if (isLoggedIn) {
+                      console.log(
+                        'sync the cart to the user cart and remove cart form local store and implement logout',
+                      );
+                    } else {
+                      console.log('take to the register page');
+                    }
+                  }}
+                >
+                  {isLoggedIn ? 'Logout' : 'Create account'}
+                </button>
               </div>
 
               <div className="hidden lg:ml-8 lg:flex">

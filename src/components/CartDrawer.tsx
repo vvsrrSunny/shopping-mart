@@ -5,6 +5,8 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { useCart } from '@/context/CartProvider';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface CartDrawerProps {
   open: boolean;
@@ -13,7 +15,9 @@ interface CartDrawerProps {
 
 const CartDrawer: FC<CartDrawerProps> = ({ open, setOpen }) => {
   const { items: cartItems, updateCart, removeFromCart, countTotalPrice } = useCart();
-
+  const router = useRouter();
+  const { status } = useSession();
+  const isLoggedIn = status === 'authenticated';
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-20">
       <DialogBackdrop
@@ -105,6 +109,12 @@ const CartDrawer: FC<CartDrawerProps> = ({ open, setOpen }) => {
                   <div className="flex">
                     <button
                       onClick={() => {
+                        if (isLoggedIn) {
+                          console.log('send data to the server and create payment link');
+                          router.push('/checkout');
+                        } else {
+                          router.push('/auth/sign-in');
+                        }
                         setOpen(false);
                       }}
                       className="w-1/2 rounded-md bg-green-700 py-2 uppercase text-white"
