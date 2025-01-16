@@ -1,7 +1,7 @@
 'use client';
 
 import { FC } from 'react';
-import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { useCart } from '@/context/CartProvider';
@@ -12,15 +12,19 @@ interface CartDrawerProps {
 }
 
 const CartDrawer: FC<CartDrawerProps> = ({ open, setOpen }) => {
-  const { items: cartItems, updateCart, removeFromCart, countTotalPrice, clearCart } = useCart();
+  const { items: cartItems, updateCart, removeFromCart, countTotalPrice } = useCart();
 
   return (
-    <Dialog open={open} onClose={setOpen} className="relative z-10">
-      <div className="fixed" />
+    <Dialog open={open} onClose={setOpen} className="relative z-20">
+      <DialogBackdrop
+        transition
+        className="fixed inset-0 bg-gray-500/75 transition-opacity duration-500 ease-in-out data-[closed]:opacity-0"
+      />
+      <div className="fixed inset-0" />
 
-      <div className="fixed">
-        <div className="absolute ">
-          <div className=" fixed inset-y-0 right-0 flex max-w-full pl-10">
+      <div className="fixed inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
             <DialogPanel
               transition
               className="pointer-events-auto w-screen max-w-md transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700"
@@ -30,7 +34,7 @@ const CartDrawer: FC<CartDrawerProps> = ({ open, setOpen }) => {
                   <div className="px-4 sm:px-6">
                     <div className="flex items-start justify-between">
                       <DialogTitle className="text-base font-semibold text-gray-900">
-                        Panel title
+                        Your Cart
                       </DialogTitle>
                       <div className="ml-3 flex h-7 items-center">
                         <button
@@ -52,13 +56,15 @@ const CartDrawer: FC<CartDrawerProps> = ({ open, setOpen }) => {
                       return (
                         <div key={cartItem.product.id} className="p-4">
                           <div className="flex space-x-4">
-                            <Image
-                              src={cartItem.product.image}
-                              alt=""
-                              className="rounded object-fit"
-                              width={64}
-                              height={64}
-                            />
+                            <div className="flex items-center">
+                              <Image
+                                src={cartItem.product.image}
+                                alt=""
+                                className="h-auto w-auto rounded object-none"
+                                width={64}
+                                height={80}
+                              />
+                            </div>
                             <div className="flex-1">
                               <h2 className="font-semibold">{cartItem.product.title}</h2>
                               <div className="flex space-x-1 text-sm text-gray-400">
@@ -88,20 +94,24 @@ const CartDrawer: FC<CartDrawerProps> = ({ open, setOpen }) => {
                     })}
                   </div>
                 </div>
-                <div className="flex shrink-0 justify-end px-4 py-4">
-                  <button
-                    type="button"
-                    onClick={() => setOpen(false)}
-                    className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="submit"
-                    className="ml-4 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                  >
-                    Checkout
-                  </button>
+                <div className="mt-auto p-4 pb-10">
+                  <div className="py-4">
+                    <h1 className="text-xl font-semibold uppercase">Total</h1>
+                    <p className="font-semibold">
+                      <span className="font-normal text-gray-400">The total of your cart is:</span>{' '}
+                      ${countTotalPrice()}
+                    </p>
+                  </div>
+                  <div className="flex">
+                    <button
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                      className="w-1/2 rounded-md bg-green-700 py-2 uppercase text-white"
+                    >
+                      Checkout
+                    </button>
+                  </div>
                 </div>
               </div>
             </DialogPanel>

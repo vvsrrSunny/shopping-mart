@@ -20,7 +20,7 @@ const BuyingOptions: FC<Props> = ({ product }) => {
       <button className="flex-1 rounded-md bg-green-700 p-1 text-white">Buy Now</button>
       <button
         onClick={onAddToCartClick}
-        className="flex-1 rounded-md border-2 border-green-700 p-1 text-gray-800 z-10"
+        className="z-10 flex-1 rounded-md border-2 border-green-700 p-1 text-gray-800"
       >
         Add to Cart
       </button>

@@ -45,7 +45,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
             width={200}
             height={160}
             priority={true}
-            className="h-auto w-auto rounded-lg lg:col-span-2 lg:row-span-2"
+            className="h-auto w-auto rounded-lg object-contain lg:col-span-2 lg:row-span-2"
           />
         </div>
       </div>

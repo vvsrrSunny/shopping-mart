@@ -19,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
   const cartItems = countAllItems();
   const [openCartDrawer, setOpenCartDrawer] = useState(false);
   return (
-    <header className="relative bg-white">
+    <header className="sticky top-0 z-20 bg-white shadow-lg">
       <p className="flex h-10 items-center justify-center bg-green-700 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
         Get free delivery on orders over $100
       </p>
@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
           <div className="flex h-16 items-center">
             {/* $add this button later */}
             <MobileSideBar navigation={navigation} />
-            <CartDrawer open={openCartDrawer} setOpen={setOpenCartDrawer}/>
+            <CartDrawer open={openCartDrawer} setOpen={setOpenCartDrawer} />
             {/* Logo */}
             <div className="ml-4 flex lg:ml-0">
               <a href="#">

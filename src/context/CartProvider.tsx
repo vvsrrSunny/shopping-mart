@@ -12,7 +12,6 @@ interface CartContext {
   removeFromCart(product: Product): void;
   countAllItems(): number;
   countTotalPrice(): string;
-  clearCart(): void;
 }
 
 const updateCartInLS = (products: cartItem[]) => {
@@ -23,7 +22,6 @@ const CartContext = createContext<CartContext>({
   items: [],
   updateCart() {},
   removeFromCart() {},
-  clearCart() {},
   countAllItems() {
     return 0;
   },
@@ -39,11 +37,6 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     const newProducts = cartItems.filter((item) => item.product.id !== product.id);
     setCartItems(newProducts);
     updateCartInLS(newProducts);
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-    updateCartInLS([]);
   };
 
   const updateCart = (product: Product, qty: number) => {
@@ -101,7 +94,6 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
         removeFromCart,
         countTotalPrice,
         countAllItems,
-        clearCart,
       }}
     >
       {children}

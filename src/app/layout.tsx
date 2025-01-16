@@ -31,12 +31,12 @@ export default function RootLayout({
 }>) {
   return (
     <Providers>
-    <html lang="en">
-      <body className={`${inter.className} bg-white`}>
-        <Header navigation={navigation} />
-        <div className="mx-auto max-w-7xl bg-white px-4 sm:px-6 lg:px-8">{children}</div>
-      </body>
-    </html>
+      <html lang="en">
+        <body className={`${inter.className} bg-white`}>
+          <Header navigation={navigation} />
+          <div className="mx-auto max-w-7xl bg-white px-4 sm:px-6 lg:px-8">{children}</div>
+        </body>
+      </html>
     </Providers>
   );
 }

@@ -23,14 +23,14 @@ export default function Products({ products }: ProductsProps) {
             width={200}
             height={160}
             priority={true}
-            className="aspect-square h-auto w-auto rounded-lg bg-gray-200 object-cover group-hover:opacity-75"
+            className="aspect-square h-auto w-auto rounded-lg bg-white object-scale-down group-hover:opacity-75"
           />
 
           <div className="pb-4 pt-10 text-center">
             <h3 className="text-sm font-medium text-gray-900">
               <Link href={`/products/${product.id}`}>
-              <span aria-hidden="true" className="absolute inset-0" />
-              {product.title}
+                <span aria-hidden="true" className="absolute inset-0" />
+                {product.title}
               </Link>
             </h3>
             <div className="mt-3 flex flex-col items-center">
