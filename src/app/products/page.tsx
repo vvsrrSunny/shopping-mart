@@ -1,12 +1,31 @@
 import { Product } from '@/types/types';
 import Products from './Products';
-import { fetchProducts } from '@/apis/products';
 import NotFound from '@/not-found';
+import { gql } from '@apollo/client';
+import client from '@/lib/apollo-client';
 
 export default async function ProductsPage() {
   let products: Product[] = [];
+
   try {
-    products = await fetchProducts();
+    const { data } = await client.query({
+      query: gql`
+        query GetProducts {
+          products {
+            id
+            title
+            price
+            description
+            image
+            rating {
+              count
+              rate
+            }
+          }
+        }
+      `,
+    });
+    products = data.products;
   } catch (error) {
     console.error('Error fetching product:', error);
     return <NotFound />;
