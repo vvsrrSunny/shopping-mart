@@ -3,19 +3,23 @@
 import { useState } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
 import { Navigation } from '@/types/types';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { classNames } from '@/utils/helpers';
+import { signOut, useSession } from 'next-auth/react';
+import { useCart } from '@/context/CartProvider';
+import MobileNavigationLinks from './MobileNavigationLinks';
+import { useRouter } from 'next/navigation';
 
 interface MobileSideBarProps {
   navigation: Navigation;
 }
 
 const MobileSideBar: React.FC<MobileSideBarProps> = ({ navigation }) => {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const user = useSession();
+  const router = useRouter();
+  const isLoggedIn = user.status === 'authenticated';
+  const { clearCart } = useCart();
   return (
     <>
       <Dialog open={open} onClose={setOpen} className="relative z-40 lg:hidden">
@@ -42,34 +46,41 @@ const MobileSideBar: React.FC<MobileSideBarProps> = ({ navigation }) => {
             </div>
 
             {/* Links */}
-            <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-              {navigation.pages.map((page) => (
-                <div key={page.name} className="flow-root">
-                  <div
-                    onClick={() => setOpen(false)}
-                    className={classNames(
-                      page.href === pathname ? 'bg-green-700 text-white' : '',
-                      'rounded-md p-2',
-                    )}
-                  >
-                    <Link href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
-                      {page.name}
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <MobileNavigationLinks navigation={navigation} onClose={() => setOpen(false)} />
 
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
               <div className="flow-root">
-                <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                  Sign in
-                </a>
+                <button
+                  className="-m-2 block p-2 font-medium text-gray-900"
+                  onClick={() => {
+                    if (isLoggedIn) {
+                      console.log('Show User Profile');
+                    } else {
+                      router.push('/auth/sign-in');
+                      setOpen(false);
+                    }
+                  }}
+                >
+                  {isLoggedIn ? user.data?.user?.name : 'Sign in'}
+                </button>
               </div>
               <div className="flow-root">
-                <a href="#" className="-m-2 block p-2 font-medium text-gray-900">
-                  Create account
-                </a>
+                <button
+                  className="-m-2 block p-2 font-medium text-gray-900"
+                  onClick={() => {
+                    if (isLoggedIn) {
+                      console.log(
+                        'sync the cart to the user cart and remove cart form local store and implement logout',
+                      );
+                      signOut();
+                      clearCart();
+                    } else {
+                      console.log('take to the register page');
+                    }
+                  }}
+                >
+                  {isLoggedIn ? 'Logout' : 'Create account'}
+                </button>
               </div>
             </div>
 

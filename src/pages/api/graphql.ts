@@ -1,42 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { graphql, buildSchema } from 'graphql';
-import { Product } from '@/types/types';
-
-// Define the GraphQL schema
-const schema = buildSchema(`
-  type Product {
-    id: ID
-    title: String
-    price: Float
-    description: String
-    category: String
-    image: String
-    rating: Rating
-  }
-
-  type Rating {
-    rate: Float
-    count: Int
-  }
-
-  type Query {
-    products: [Product]
-    product(id: ID!): Product
-  }
-`);
-
-// Define the resolvers
-const resolvers = {
-  products: async (): Promise<Product[]> => {
-    const response = await fetch('https://fakestoreapi.com/products');
-    return response.json();
-  },
-  product: async ({ id }: { id: number }): Promise<Product> => {
-    const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-    return response.json();
-  },
-};
-
+import { graphql } from 'graphql';
+import { schema } from '@/graphql/schema';
+import { resolvers } from '@/graphql/resolvers';
 
 export default async function handler(
   req: NextApiRequest,
@@ -53,8 +18,14 @@ export default async function handler(
         variableValues: variables,
       });
 
+      if (result.errors) {
+        res.status(500).json({ errors: result.errors });
+        return;
+      }
+
       res.status(200).json(result);
     } catch (error) {
+      console.error('GraphQL Error:', error);
       res.status(500).json({ error: (error as Error).message });
     }
   } else {

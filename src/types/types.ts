@@ -12,8 +12,3 @@ export type Product = {
     count: number;
   };
 };
-
-export type Rating = {
-  rate: number;
-  count: number;
-};

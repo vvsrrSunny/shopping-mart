@@ -3,6 +3,7 @@ import { Product } from '@/types/types';
 import Ratings from '@/components/server/Ratings';
 import Image from 'next/image';
 import ProductDetailsLayout from './ProductDetailsLayout';
+import ProductAddToCart from '@/components/ProductAddToCart';
 
 interface ProductDetailsProps {
   product: Product;
@@ -45,20 +46,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
             width={200}
             height={160}
             priority={true}
-            className="h-auto w-auto rounded-lg object-contain lg:col-span-2 lg:row-span-2"
+            className="h-auto w-auto rounded-lg lg:col-span-2 lg:row-span-2"
           />
         </div>
       </div>
 
       <div className="mt-8 lg:col-span-5">
-        <form>
-          <button
-            type="submit"
-            className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-green-700 px-8 py-3 text-base font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2"
-          >
-            Add to cart
-          </button>
-        </form>
+        <ProductAddToCart product={product} />
 
         {/* Product details */}
         <div className="mt-10">

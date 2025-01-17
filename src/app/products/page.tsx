@@ -1,29 +1,15 @@
 import { Product } from '@/types/types';
 import Products from './Products';
 import NotFound from '@/not-found';
-import { gql } from '@apollo/client';
 import client from '@/lib/apollo-client';
+import { GET_PRODUCTS } from '@/graphql/queries';
 
 export default async function ProductsPage() {
   let products: Product[] = [];
 
   try {
     const { data } = await client.query({
-      query: gql`
-        query GetProducts {
-          products {
-            id
-            title
-            price
-            description
-            image
-            rating {
-              count
-              rate
-            }
-          }
-        }
-      `,
+      query: GET_PRODUCTS,
     });
     products = data.products;
   } catch (error) {

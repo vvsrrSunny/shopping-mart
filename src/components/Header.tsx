@@ -1,14 +1,15 @@
 'use client';
 import React, { useState } from 'react';
 import { MagnifyingGlassIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
 import { Navigation } from '@/types/types';
 import MobileSideBar from './MobileSideBar';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useCart } from '@/context/CartProvider';
 import CartDrawer from './CartDrawer';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
+import DesktopNavigation from './DesktopNavigation';
+import Logo from './server/Logo';
 
 interface HeaderProps {
   navigation: Navigation;
@@ -19,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
   const user = useSession();
   const router = useRouter();
   const isLoggedIn = user.status === 'authenticated';
-  const { countAllItems, countTotalPrice } = useCart();
+  const { countAllItems, countTotalPrice, clearCart } = useCart();
   const cartItems = countAllItems();
   const [openCartDrawer, setOpenCartDrawer] = useState(false);
   return (
@@ -35,41 +36,9 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
             <MobileSideBar navigation={navigation} />
             <CartDrawer open={openCartDrawer} setOpen={setOpenCartDrawer} />
             {/* Logo */}
-            <div className="ml-4 flex lg:ml-0">
-              <a href="#">
-                <span className="sr-only">Your Company</span>
-                <Image
-                  alt=""
-                  src="https://tailwindui.com/plus/img/logos/mark.svg?color=green&shade=700"
-                  className="h-8 w-auto bg-white"
-                  width={20}
-                  height={20}
-                />
-              </a>
-            </div>
-
+            <Logo />
             {/* Flyout menus */}
-            <div className="hidden lg:ml-8 lg:block lg:self-stretch">
-              <div className="flex h-full space-x-8">
-                {navigation.pages.map((page, index) => (
-                  <Link
-                    href={page.href}
-                    key={index}
-                    className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    <p
-                      className={
-                        page.href === pathname
-                          ? 'underline decoration-green-700 decoration-2 underline-offset-8'
-                          : ''
-                      }
-                    >
-                      {page.name}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <DesktopNavigation navigation={navigation} pathname={pathname} />
 
             <div className="ml-auto flex items-center">
               <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -93,6 +62,8 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
                       console.log(
                         'sync the cart to the user cart and remove cart form local store and implement logout',
                       );
+                      signOut();
+                      clearCart();
                     } else {
                       console.log('take to the register page');
                     }
@@ -133,7 +104,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
                       className="size-6 shrink-0 text-gray-400 group-hover:text-gray-500"
                     />
                     {cartItems > 0 ? (
-                      <div className="absolute -right-3 -top-3 flex h-6 w-6 items-center justify-center rounded-full bg-green-700 bg-opacity-70 text-xs font-semibold text-white">
+                      <div className="absolute -right-3 -top-3 flex h-6 w-6 items-center justify-center rounded-full bg-green-700 bg-opacity-85 text-xs font-semibold text-white">
                         <p className="text-xs font-light">{cartItems >= 9 ? '9+' : cartItems}</p>
                       </div>
                     ) : null}

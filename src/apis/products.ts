@@ -16,7 +16,7 @@ export async function fetchProducts(): Promise<Product[]> {
   }
 }
 
-export async function fetchProduct(id: string): Promise<Product> {
+export async function fetchProductById(id: string): Promise<Product> {
   try {
     const res = await fetch('https://fakestoreapi.com/products/' + id);
 

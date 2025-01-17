@@ -10,6 +10,7 @@ interface CartContext {
   items: cartItem[];
   updateCart(product: Product, qty: number): void;
   removeFromCart(product: Product): void;
+  clearCart(): void;
   countAllItems(): number;
   countTotalPrice(): string;
 }
@@ -22,6 +23,7 @@ const CartContext = createContext<CartContext>({
   items: [],
   updateCart() {},
   removeFromCart() {},
+  clearCart() {},
   countAllItems() {
     return 0;
   },
@@ -37,6 +39,11 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     const newProducts = cartItems.filter((item) => item.product.id !== product.id);
     setCartItems(newProducts);
     updateCartInLS(newProducts);
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
+    updateCartInLS([]);
   };
 
   const updateCart = (product: Product, qty: number) => {
@@ -56,18 +63,6 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
       updateCartInLS(finalCartItems);
     }
   };
-
-  // const removeFromCart = (product: Product, qty: number) => {
-  //   const newProducts = cartItems.map((item) => {
-  //     if (product.id === item.product.id) {
-  //       item.count -= qty;
-  //     }
-
-  //     return item;
-  //   });
-
-  //   setCartItems(newProducts);
-  // };
 
   const countAllItems = () => {
     return cartItems.reduce((total, cartItem) => total + cartItem.count, 0);
@@ -94,6 +89,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
         removeFromCart,
         countTotalPrice,
         countAllItems,
+        clearCart,
       }}
     >
       {children}
