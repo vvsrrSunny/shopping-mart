@@ -97,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
 
               {/* Cart */}
               <div className="ml-4 flow-root lg:ml-6">
-                <a href="#" className="group -m-2 flex items-center p-2">
+                <div className="group -m-2 flex items-center p-2">
                   <button className="relative" onClick={() => setOpenCartDrawer(true)}>
                     <ShoppingCartIcon
                       aria-hidden="true"
@@ -113,7 +113,7 @@ const Header: React.FC<HeaderProps> = ({ navigation }) => {
                     ${countTotalPrice()}
                   </span>
                   <span className="sr-only">items in cart, view bag</span>
-                </a>
+                </div>
               </div>
             </div>
           </div>
