@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Project with GraphQL and Authentication
+
+This app is deployed and is available on this link [Shopping mart](https://shopping-mart-psi.vercel.app/)
 
 ## Getting Started
 
@@ -16,21 +18,37 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### GraphQL Integration
 
-## Learn More
+This project integrates GraphQL to handle API calls efficiently. It leverages Apollo Client for managing GraphQL queries and mutations, enabling seamless data fetching and state management across the app.
 
-To learn more about Next.js, take a look at the following resources:
+### Authentication
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Authentication has been implemented for the app to secure sensitive operations. For testing purposes, use the following credentials:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Username:** [sunny@gmail.com](mailto:sunny@gmail.com)
+- **Password:** 1234
 
-## Deploy on Vercel
+> **Note:** Due to time constraints, the authentication is simplified, and only the above user is available in the database.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Data Fetching
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Instead of using `getServerSideProps`, the project dynamically fetches sensitive data like product prices directly from the server on each request. This ensures that the prices are always up-to-date and prevents stale or cached data from being served to users.
+
+## Configuration
+
+Make sure to update your `.env.local` file with the correct host URL to run the app properly, if you are running on localhost mostly it will be [http://localhost:3000](http://localhost:3000):
+
+```env
+HOST_URL=http://your-api-host-url
+```
+
+Replace `http://your-api-host-url` with the actual URL of your API server.
+
+Also update the AUTH_SECRET. For more info visit [https://authjs.dev/getting-started/installation](https://authjs.dev/getting-started/installation)
+
+## Deployment
+
+This app is deployed and is available on this link [Shopping mart](https://shopping-mart-psi.vercel.app/)
