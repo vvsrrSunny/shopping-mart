@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'PLAYA3ULL Shopping',
+  title: 'Shopping mart',
   description: 'A Next js application for E-Commerce',
 };
 
